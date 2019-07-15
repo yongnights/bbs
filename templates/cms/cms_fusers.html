@@ -1,0 +1,52 @@
+{% extends "cms/cms_base.html" %}
+{% from "common/_macors.html" import static %}
+
+{% block title %}
+    前台用户管理
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static('cms/css/cms_base.css') }}">
+    <script src="{{ static('cms/js/fuser.js') }}"></script>
+{% endblock %}
+
+{% block page_title %}
+    {{ self.title() }}
+{% endblock %}
+
+{% block main_content %}
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <th>手机号</th>
+            <th>邮箱</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fuser in fusers %}
+            <tr data-id="{{ fuser.id }}" data-highlight="{{ 1 if fuser.is_display else 0 }}">
+                <td>{{ fuser.username }}</td>
+                <td>{{ fuser.tel }}</td>
+                <td>{{ fuser.email }}</td>
+                <td>{{ fuser.join_time }}</td>
+                <td>
+                    {% if fuser.is_display %}
+                        <button class="btn btn-default btn-xs highlight-btn">允许发帖</button>
+                    {% else %}
+                        <button class="btn btn-danger btn-xs highlight-btn">禁止发帖</button>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#分页显示#}
+    {% include "common/cms_pages.html" %}
+
+
+
+{% endblock %}

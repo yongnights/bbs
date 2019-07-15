@@ -1,0 +1,47 @@
+{% extends "front/front_signbase.html" %}
+{% from "common/_macors.html" import static %}
+
+{% block title %}
+    新用户注册
+{% endblock %}
+
+{% block head %}
+    <script src="{{ static('front/js/front_signup.js') }}"></script>
+{% endblock %}
+
+{% block h2_block %}
+    账号注册
+{% endblock %}
+
+{% block signbox %}
+    <div class="form-group">
+        <div class="input-group">
+            <input type="email" class="form-control" name="email" placeholder="邮箱地址">
+            <span class="input-group-addon" id="captcha-btn" style="cursor: pointer;">获取验证码</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" name="email_captcha" placeholder="请输入邮箱验证码">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" name="password" placeholder="请输入6-10位密码">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" name="repeat_password" placeholder="请再次输入密码">
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" class="form-control" name="graph_captcha" placeholder="请输入图形验证码">
+            <span class="input-group-addon captcha-addon">
+                    <img id="captcha-img" class="captcha-img" src="{{ url_for('front.graph_captcha') }}" alt="">
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-warning btn-block" id="submit">立即注册</button>
+    </div>
+
+    <a href="{{ url_for("front.signin") }}" class="signup-link" style="float: left">已注册？立即登录</a>
+{% endblock %}
+
+

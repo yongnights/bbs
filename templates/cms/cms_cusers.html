@@ -1,0 +1,105 @@
+{% extends "cms/cms_base.html" %}
+{% from "common/_macors.html" import static %}
+
+{% block title %}
+    CMS后台用户管理
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static('cms/css/cms_base.css') }}">
+    <script src="{{ static('cms/js/cuser.js') }}"></script>
+{% endblock %}
+
+{% block page_title %}
+    {{ self.title() }}
+{% endblock %}
+
+{% block main_content %}
+    <div class="top-box">
+        <button class="btn btn-warning" data-toggle="modal" data-target="#cuser-dialog">添加CMS后台用户</button>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <th>邮箱</th>
+            <th>角色</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuser in cusers %}
+            <tr data-id="{{ cuser.id }}" data-name="{{ cuser.username }}" data-email="{{ cuser.email }}"
+                data-role="{{ cms_role[cuser.id] }}"
+                data-highlight="{{ 1 if cuser.is_display else 0 }}">
+                <td>{{ cuser.username }}</td>
+                <td>{{ cuser.email }}</td>
+                <td>{{ cms_role[cuser.id] }}</td>
+                <td>{{ cuser.join_time }}</td>
+                <td>
+                    <button class="btn btn-default btn-xs edit-cuser-btn">编辑</button>
+                    {% if cuser.is_display == 1 %}
+                        <button class="btn btn-default btn-xs highlight-btn">允许登录</button>
+                    {% else %}
+                        <button class="btn btn-danger btn-xs highlight-btn">禁止登录</button>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#分页显示#}
+    {% include "common/cms_pages.html" %}
+
+    <!-- 轮播图模态框 -->
+    <div class="modal fade" id="cuser-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">CMS后台用户管理</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户名：</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="name" placeholder="用户名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">邮箱：</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" name="email" placeholder="邮箱">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">密码：</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" name="password" placeholder="密码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">角色：</label>
+                            <div class="col-sm-8">
+                                <select name="role" class="form-control">
+                                    {% for role in roles %}
+                                        <option value="{{ role.id }}">{{ role.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="save-cuser-btn">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

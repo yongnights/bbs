@@ -1,0 +1,40 @@
+{% extends "cms/cms_base.html" %}
+{% from "common/_macors.html" import static %}
+
+{% block title %}
+    CMS角色管理
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static('cms/css/cms_base.css') }}">
+    {#    <script src="{{ static('cms/js/cuser.js') }}"></script>#}
+{% endblock %}
+
+{% block page_title %}
+    {{ self.title() }}
+{% endblock %}
+
+{% block main_content %}
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>角色名</th>
+            <th>权限</th>
+            <th>创建时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for crole in cms_croles %}
+            <tr data-id="{{ crole.id }}" data-name="{{ crole.name }}">
+                <td>{{ crole.name }}</td>
+                <td>{{ crole.desc }}</td>
+                <td>{{ crole.create_time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#分页显示#}
+    {% include "common/cms_pages.html" %}
+
+{% endblock %}

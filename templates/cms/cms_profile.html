@@ -1,0 +1,57 @@
+{% extends "cms/cms_base.html" %}
+
+{% block title -%}
+    个人信息
+{%- endblock %}
+
+{% block page_title -%}
+    {{ self.title() }}
+{%- endblock %}
+
+{% block head -%}
+    <style>
+        .form-container {
+            width: 400px;
+        }
+    </style>
+{%- endblock %}
+
+{% block main_content -%}
+    <div class="form-container">
+        {% set user = g.cms_user %}
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>用户名</th>
+                    <th>{{ user.username }}</th>
+                </tr>
+                <tr>
+                    <th>邮箱</th>
+                    <th>{{ user.email }}</th>
+                </tr>
+                <tr>
+                    <th>角色</th>
+                    <th>
+                        {% for role in user.roles %}
+                            {{ role.name }}
+                            {% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    </th>
+                </tr>
+                <tr>
+                    <th>权限</th>
+                    <th>
+                        {% for role in user.roles %}
+                            {{ role.desc }}
+                            {% if not loop.last %}/{% endif %}
+                        {% endfor %}
+                    </th>
+                </tr>
+                <tr>
+                    <th>加入时间</th>
+                    <th>{{ user.join_time }}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{%- endblock %}
